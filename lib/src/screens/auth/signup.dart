@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import './input.dart';
 
 
-import './user/dashboard.dart';
+import '../user/dashboard.dart';
 
 class SignUp extends StatefulWidget {
   createState() {
