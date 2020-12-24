@@ -20,7 +20,7 @@ class Input extends StatelessWidget {
             width: 1.5,
           ),
         ),
-        child: formType == "email"
+        child: formType == "Email Address"
             ? TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
@@ -28,6 +28,12 @@ class Input extends StatelessWidget {
                     labelText: 'Email Address',
                     hintText: ''),
               )
-            : TextFormField());
+            : TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: formType,
+                    hintText: ''),
+              ));
   }
 }

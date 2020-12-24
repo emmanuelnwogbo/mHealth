@@ -14,14 +14,17 @@ class SignInState extends State<SignIn> {
 
   String email = "";
   String password = "";
-  final textFieldNum = 2;
 
   Widget build(context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
 
-    var formList = new List<int>.generate(textFieldNum, (i) => i + 1);
+    var formList = <String>[
+      "Email Address",
+      "Password",
+    ];
+
     formList.forEach((i) {
-      return InputFields.add(new Input("email"));
+      return InputFields.add(new Input(i));
     });
 
     return Center(

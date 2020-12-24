@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import './input.dart';
 
+
+import './user/dashboard.dart';
+
 class SignUp extends StatefulWidget {
   createState() {
     return SignUpState();
@@ -17,14 +20,20 @@ class SignUpState extends State<SignUp> {
   String email = "";
   String password = "";
   String confirmpassword = "";
-  final textFieldNum = 5;
+
+  var formList = <String>[
+    "First Name",
+    "Last Name",
+    "Email Address",
+    "Password",
+    "Confirm Password"
+  ];
 
   Widget build(context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
 
-    var formList = new List<int>.generate(textFieldNum, (i) => i + 1);
     formList.forEach((i) {
-      return InputFields.add(new Input("email"));
+      return InputFields.add(new Input(i));
     });
 
     return Center(
@@ -40,7 +49,7 @@ class SignUpState extends State<SignUp> {
             height: 60.0,
             child: FlatButton(
               child: Text(
-                'Sign Up'.toUpperCase(),
+                'Continue'.toUpperCase(),
                 style: TextStyle(fontSize: 17.0),
               ),
               color: Color(0xFF665EFF),
@@ -48,7 +57,12 @@ class SignUpState extends State<SignUp> {
                 borderRadius: BorderRadius.circular(15),
               ),
               textColor: Colors.white,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Dashboard()),
+                );
+              },
             ),
           ),
         )
