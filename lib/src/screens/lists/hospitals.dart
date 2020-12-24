@@ -56,7 +56,7 @@ class _HospitalsState extends State<Hospitals> {
                 Icon(
                   Icons.arrow_back,
                   color: Color(0xFF454F63),
-                  size: 33.0,
+                  size: 27.0,
                   semanticLabel: 'Text to announce in accessibility modes',
                 ),
                 Icon(
@@ -149,7 +149,7 @@ class _HospitalsState extends State<Hospitals> {
                                   color: Color(0xFF454F63),
                                   decoration: TextDecoration.none,
                                   fontSize: 22.0,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                               SizedBox(
