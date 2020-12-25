@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
-class Input extends StatelessWidget {
+class Input extends StatefulWidget {
+  Input(this.formType);
   final String formType;
 
-  Input(this.formType);
+  @override
+  _InputState createState() => _InputState();
+}
+
+class _InputState extends State<Input> {
+  TextEditingController inputController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +26,23 @@ class Input extends StatelessWidget {
             width: 1.5,
           ),
         ),
-        child: formType == "Email Address"
+        child: widget.formType == "Email Address"
             ? TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    labelText: 'Email Address',
+                    labelText: "Email Address",
                     hintText: ''),
               )
             : TextFormField(
+                obscureText: widget.formType == "Password" ||
+                        widget.formType == "Confirm Password"
+                    ? true
+                    : false,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    labelText: formType,
+                    labelText: widget.formType,
                     hintText: ''),
               ));
   }

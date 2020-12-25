@@ -96,8 +96,7 @@ class _DashboardState extends State<Dashboard> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: new DecorationImage(
-                        image: NetworkImage(
-                            'https://images.unsplash.com/photo-1560582861-45078880e48e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=634&q=80'),
+                        image: AssetImage('assets/diagnosis.jpg'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -143,8 +142,7 @@ class _DashboardState extends State<Dashboard> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: new DecorationImage(
-                        image: NetworkImage(
-                            'https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80'),
+                        image: AssetImage('assets/hospitals.jpg'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -190,8 +188,7 @@ class _DashboardState extends State<Dashboard> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: new DecorationImage(
-                        image: NetworkImage(
-                            'https://images.unsplash.com/photo-1542884748-2b87b36c6b90?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'),
+                        image: AssetImage('assets/doctor.jpg'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -237,8 +234,7 @@ class _DashboardState extends State<Dashboard> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: new DecorationImage(
-                        image: NetworkImage(
-                            'https://images.unsplash.com/photo-1579165466991-467135ad3110?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'),
+                        image: AssetImage('assets/labs.jpg'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -284,8 +280,7 @@ class _DashboardState extends State<Dashboard> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       image: new DecorationImage(
-                        image: NetworkImage(
-                            'https://images.unsplash.com/photo-1549504537-57b91460ba7c?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1189&q=80'),
+                        image: AssetImage('assets/pharmacies.jpg'),
                         fit: BoxFit.cover,
                       ),
                     ),

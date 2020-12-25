@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../user/dashboard.dart';
+
 class Laboratories extends StatefulWidget {
   @override
   _LaboratoriesState createState() => _LaboratoriesState();
@@ -53,12 +55,19 @@ class _LaboratoriesState extends State<Laboratories> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Icon(
-                  Icons.arrow_back,
-                  color: Color(0xFF454F63),
-                  size: 27.0,
-                  semanticLabel: 'Text to announce in accessibility modes',
-                ),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pop(
+                        context,
+                        MaterialPageRoute(builder: (context) => Dashboard()),
+                      );
+                    },
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Color(0xFF454F63),
+                      size: 27.0,
+                      semanticLabel: 'Text to announce in accessibility modes',
+                    )),
                 Icon(
                   Icons.search,
                   color: Color(0xFF454F63),

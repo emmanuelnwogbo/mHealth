@@ -13,7 +13,8 @@ class _LandingState extends State<Landing> {
     MediaQueryData mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
-      body: Center(
+        body: SingleChildScrollView(
+      child: Center(
         child: Container(
             padding: EdgeInsets.only(top: mediaQuery.size.height / 10),
             height: mediaQuery.size.height,
@@ -96,6 +97,6 @@ class _LandingState extends State<Landing> {
               ],
             )),
       ),
-    );
+    ));
   }
 }

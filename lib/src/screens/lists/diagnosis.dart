@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../user/dashboard.dart';
+
 class Diagnosis extends StatefulWidget {
   @override
   _DiagnosisState createState() => _DiagnosisState();
@@ -20,11 +22,7 @@ class _DiagnosisState extends State<Diagnosis> {
 
   var includedSymptoms = <String>[];
 
-  var diagnosis = <String>[
-    "Typhoid 98.12%",
-    "Malaria 2.12%",
-    "Cold 0.12%"
-  ];
+  var diagnosis = <String>["Typhoid 98.12%", "Malaria 2.12%", "Cold 0.12%"];
 
   void _addSymptom(item) {
     var symps = includedSymptoms;
@@ -168,13 +166,21 @@ class _DiagnosisState extends State<Diagnosis> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Icon(
-                            Icons.arrow_back,
-                            color: Color(0xFF454F63),
-                            size: 27.0,
-                            semanticLabel:
-                                'Text to announce in accessibility modes',
-                          ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.pop(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Dashboard()),
+                                );
+                              },
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Color(0xFF454F63),
+                                size: 27.0,
+                                semanticLabel:
+                                    'Text to announce in accessibility modes',
+                              )),
                         ],
                       ),
                     ),
