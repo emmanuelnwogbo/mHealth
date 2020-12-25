@@ -20,6 +20,12 @@ class _DiagnosisState extends State<Diagnosis> {
 
   var includedSymptoms = <String>[];
 
+  var diagnosis = <String>[
+    "Typhoid 98.12%",
+    "Malaria 2.12%",
+    "Cold 0.12%"
+  ];
+
   void _addSymptom(item) {
     var symps = includedSymptoms;
     symps.contains(item) ? symps.remove(item) : symps.insert(0, item);
@@ -27,6 +33,118 @@ class _DiagnosisState extends State<Diagnosis> {
     setState(() {
       includedSymptoms = symps;
     });
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
+    return new AlertDialog(
+      backgroundColor: Color(0xFF2A2E43),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      title: new Text(
+        "You've been diagnosed".toUpperCase(),
+        style: TextStyle(fontSize: 17.0, color: Colors.white),
+        textAlign: TextAlign.center,
+      ),
+      content: new SingleChildScrollView(
+          child: Container(
+              height: mediaQuery.size.height / 3,
+              decoration: BoxDecoration(
+                color: Color(0xFF2A2E43),
+              ),
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    child: ListView.builder(
+                        itemCount: diagnosis.length,
+                        itemBuilder: (context, index) {
+                          final item = diagnosis[index];
+
+                          return Column(
+                            children: <Widget>[
+                              Text(
+                                item,
+                                style: TextStyle(
+                                    fontSize: 19.0, color: Colors.white),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              )
+                            ],
+                          );
+                        }),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Column(
+                      children: <Widget>[
+                        GestureDetector(
+                            child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: Color(0xFF665EFF),
+                              width: 1.5,
+                            ),
+                            color: Color(0xFF665EFF),
+                          ),
+                          height: mediaQuery.size.height / 15,
+                          child: Center(
+                            child: FlatButton(
+                              child: Text(
+                                'visit pharmacy'.toUpperCase(),
+                                style: TextStyle(fontSize: 16.0),
+                                textAlign: TextAlign.center,
+                              ),
+                              color: Color(0xFF665EFF),
+                              textColor: Colors.white,
+                              onPressed: () {},
+                            ),
+                          ),
+                        )),
+                        SizedBox(height: 20),
+                        GestureDetector(
+                            child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: Color(0xFF665EFF),
+                              width: 1.5,
+                            ),
+                            color: Color(0xFFF4F4F4),
+                          ),
+                          height: mediaQuery.size.height / 15,
+                          child: Center(
+                            child: FlatButton(
+                              child: Text(
+                                'consult a doctor'.toUpperCase(),
+                                style: TextStyle(fontSize: 16.0),
+                                textAlign: TextAlign.center,
+                              ),
+                              color: Colors.white,
+                              textColor: Color(0xFF665EFF),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ))
+                      ],
+                    ),
+                  ),
+                ],
+              ))),
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text(''),
+        ),
+      ],
+    );
   }
 
   @override
@@ -224,7 +342,13 @@ class _DiagnosisState extends State<Diagnosis> {
                         ),
                         color: Color(0xFF665EFF),
                         textColor: Colors.white,
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                _buildPopupDialog(context),
+                          );
+                        },
                       ),
                     ),
                   )),

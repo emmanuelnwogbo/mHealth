@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'screens/auth/auth_screen.dart';
+import 'screens/landing/landing.dart';
 
 class App extends StatelessWidget {
   Widget build(context) {
     return MaterialApp(
         //title: 'Log Me In!',
         debugShowCheckedModeBanner: false,
-        home: Scaffold(body: AuthScreen()));
+        home: Scaffold(body: Landing()));
   }
 }
