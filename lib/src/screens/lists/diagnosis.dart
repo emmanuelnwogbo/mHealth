@@ -10,17 +10,26 @@ class Diagnosis extends StatefulWidget {
 class _DiagnosisState extends State<Diagnosis> {
   var symptoms = <String>[
     "ARE YOU EXPERIENCING ANY OF THESE SYMPTOMS?",
-    "Mid Fever",
-    "High Fever",
-    "Dry Cough",
-    "Wet Cough",
-    "Nasal Congestion",
-    "Headaches",
+    "Cough",
+    "Fever",
+    "Chest Pain",
+    "Weight loss",
+    "Fatigue",
+    "Sweat",
+    "Chills",
     "Loss of Appetite",
-    "Fatigue"
+    "Diarrhea",
+    "Facial Pain",
+    "Headache"
   ];
 
   var includedSymptoms = <String>[];
+
+  String empty = " ";
+
+  String dropdownValue = " ";
+
+  String selectedSymptom = " ";
 
   var diagnosis = <String>["Typhoid 98.12%", "Malaria 2.12%", "Cold 0.12%"];
 
@@ -33,8 +42,19 @@ class _DiagnosisState extends State<Diagnosis> {
     });
   }
 
+  void _setSymptom(item) {
+    selectedSymptom == item
+        ? setState(() {
+            selectedSymptom = "";
+          })
+        : setState(() {
+            selectedSymptom = item;
+          });
+  }
+
   Widget _buildPopupDialog(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
+
     return new AlertDialog(
       backgroundColor: Color(0xFF2A2E43),
       shape: RoundedRectangleBorder(
@@ -231,63 +251,118 @@ class _DiagnosisState extends State<Diagnosis> {
                               ));
                         }
 
-                        return GestureDetector(
-                            onTap: () {
-                              _addSymptom(item);
-                            },
-                            child: Container(
-                                //height: 60.0,
-                                margin: EdgeInsets.only(
-                                    top: 3.0, left: 17, right: 17, bottom: 10),
-                                padding: EdgeInsets.only(
-                                    top: index == 1 ? 40 : 0, bottom: 16.0),
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFF7F7FA),
-                                  border: Border(
-                                    bottom: BorderSide(
-                                        width: 1.0, color: Color(0xFFD9D9D9)),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                        return Stack(
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  _setSymptom(item);
+                                },
+                                child: Stack(
                                   children: <Widget>[
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          item,
-                                          style: TextStyle(
-                                            color: Color(0xFF454F63),
-                                            decoration: TextDecoration.none,
-                                            fontSize: 22.0,
-                                            fontWeight: FontWeight.w400,
+                                    Container(
+                                        //height: 60.0,
+                                        margin: EdgeInsets.only(
+                                            top: 3.0,
+                                            left: 17,
+                                            right: 17,
+                                            bottom: 10),
+                                        padding: EdgeInsets.only(
+                                            top: index == 1 ? 40 : 0,
+                                            bottom: 16.0),
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFFF7F7FA),
+                                          border: Border(
+                                            bottom: BorderSide(
+                                                width: 1.0,
+                                                color: Color(0xFFD9D9D9)),
                                           ),
                                         ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 20,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(6.0),
-                                        border: Border.all(
-                                          color: Color(0xFF665EFF),
-                                          width: 1.5,
-                                        ),
-                                        color: includedSymptoms.contains(item)
-                                            ? Color(0xFF665EFF)
-                                            : Color(0xFFFFFFFF),
-                                      ),
-                                    )
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  item,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF454F63),
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    fontSize: 22.0,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              child: DropdownButton<String>(
+                                                value: dropdownValue,
+                                                icon: Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  color: Color(0xFF454F63),
+                                                  size: 25.0,
+                                                  semanticLabel:
+                                                      'Text to announce in accessibility modes',
+                                                ),
+                                                iconSize: 24,
+                                                elevation: 16,
+                                                style: TextStyle(
+                                                    color: Colors.deepPurple),
+                                                underline: Container(
+                                                    //height: 2,
+                                                    //color: Colors.deepPurpleAccent,
+                                                    ),
+                                                onChanged: (String newValue) {
+                                                  setState(() {
+                                                    //dropdownValue = newValue;
+                                                  });
+                                                },
+                                                items: <String>[
+                                                  empty,
+                                                  'Severe',
+                                                  'High',
+                                                  'Low',
+                                                  'Very Low',
+                                                  'Not Evident',
+                                                ].map<DropdownMenuItem<String>>(
+                                                    (String value) {
+                                                  return value == " " ? DropdownMenuItem<
+                                                      String>(
+                                                    value: value,
+                                                    child: Container(),
+                                                  ) : DropdownMenuItem<
+                                                      String>(
+                                                    value: value,
+                                                    child: Text(value,
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color:
+                                                              Color(0xFF454F63),
+                                                        )),
+                                                  );
+                                                }).toList(),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
                                   ],
-                                )));
+                                )),
+                          ],
+                        );
                       },
                     )),
                     SizedBox(height: 75.0)
