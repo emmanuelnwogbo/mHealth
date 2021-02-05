@@ -2,12 +2,37 @@ import 'package:flutter/material.dart';
 
 import '../user/dashboard.dart';
 
+import 'dart:convert' as convert;
+import 'dart:async';
+import 'package:http/http.dart' as http;
+
 class Diagnosis extends StatefulWidget {
   @override
   _DiagnosisState createState() => _DiagnosisState();
 }
 
 class _DiagnosisState extends State<Diagnosis> {
+  final String token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJfdXVpZCI6IjI5YmRiZDE0LTE3NjUtNGFkMi1hNTZiLTAzN2M2NGFlMzVkNyIsImZpcnN0X25hbWUiOiJrZXZpbiIsImxhc3RfbmFtZSI6InNsZXJrIiwiZW1haWwiOiJrZXZpbnNsZWVwQGdtYWlsLmNvbSIsInBob25lIjpudWxsLCJhZ2UiOm51bGwsImdlbmRlciI6bnVsbCwiYWRkcmVzcyI6bnVsbCwiaXNfdmVyaWZpZWQiOjAsInByb2ZpbGVfaXNfY29tcGxldGUiOjAsImNyZWF0ZWRBdCI6IjIwMjEtMDItMDNUMjM6MzI6MjMuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMDItMDNUMjM6MzI6MjMuMDAwWiJ9LCJpYXQiOjE2MTIzOTUxNDUsImV4cCI6MTYxMjk5OTk0NX0.gl8lsAj2hL-HyceTGm68snsSI34IvXj2s_BXSw_LKgg";
+
+  final String urlGetter = "https://medhealthurl.herokuapp.com/url";
+  String baseUrl = "";
+
+  void initState() {
+    super.initState();
+    print("initState");
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print("WidgetsBinding");
+      http.get(urlGetter).then((response) {
+        var jsonResponse = convert.jsonDecode(response.body);
+        print(jsonResponse["url"]);
+        setState(() {
+          baseUrl = jsonResponse["url"];
+        });
+      });
+    });
+  }
+
   var symptoms = <String>[
     "ARE YOU EXPERIENCING ANY OF THESE SYMPTOMS?",
     "Cough",
@@ -19,8 +44,77 @@ class _DiagnosisState extends State<Diagnosis> {
     "Chills",
     "Loss of Appetite",
     "Diarrhea",
-    "Facial Pain",
-    "Headache"
+    "Facial Pain"
+  ];
+
+  Map symptomCodes = {
+    "SYM00001": 0.75,
+    "SYM00002": 0.75,
+    "SYM00004": 1,
+    "SYM00005": 0.75,
+    "SYM00006": 1,
+    "SYM00008": 0.75,
+    "SYM00009": 0.75,
+    "SYM00011": 1,
+    "SYM00019": 1,
+    "SYM00022": 0.75
+  };
+
+  final List<DropdownMenuItem> symptomLabels = [
+    DropdownMenuItem(
+        value: "",
+        child: Text('',
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              decoration: TextDecoration.none,
+              color: Color(0xFF454F63),
+            ))),
+    DropdownMenuItem(
+        value: 1.00,
+        child: Text('Severe',
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              decoration: TextDecoration.none,
+              color: Color(0xFF454F63),
+            ))),
+    DropdownMenuItem(
+        value: 0.75,
+        child: Text('High',
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              decoration: TextDecoration.none,
+              color: Color(0xFF454F63),
+            ))),
+    DropdownMenuItem(
+        value: 0.50,
+        child: Text('Low',
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              decoration: TextDecoration.none,
+              color: Color(0xFF454F63),
+            ))),
+    DropdownMenuItem(
+        value: 0.25,
+        child: Text('Very Low',
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              decoration: TextDecoration.none,
+              color: Color(0xFF454F63),
+            ))),
+    DropdownMenuItem(
+        value: 0.00,
+        child: Text('Not Evident',
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              decoration: TextDecoration.none,
+              color: Color(0xFF454F63),
+            )))
   ];
 
   var includedSymptoms = <String>[];
@@ -31,7 +125,11 @@ class _DiagnosisState extends State<Diagnosis> {
 
   String selectedSymptom = " ";
 
-  var diagnosis = <String>["Typhoid 98.12%", "Malaria 2.12%", "Cold 0.12%"];
+  var diagnosis = <String>[
+    "Tuberculosis 0.12%",
+    "Typhoid 98.12%",
+    "Malaria 2.12%",
+  ];
 
   void _addSymptom(item) {
     var symps = includedSymptoms;
@@ -191,7 +289,8 @@ class _DiagnosisState extends State<Diagnosis> {
                                 Navigator.pop(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Dashboard()),
+                                      builder: (context) =>
+                                          Dashboard('', '', '')),
                                 );
                               },
                               child: Icon(
@@ -304,58 +403,174 @@ class _DiagnosisState extends State<Diagnosis> {
                                             ),
                                             Container(
                                               height: 40,
-                                              child: DropdownButton<String>(
-                                                value: dropdownValue,
-                                                icon: Icon(
-                                                  Icons.keyboard_arrow_down,
-                                                  color: Color(0xFF454F63),
-                                                  size: 25.0,
-                                                  semanticLabel:
-                                                      'Text to announce in accessibility modes',
-                                                ),
-                                                iconSize: 24,
-                                                elevation: 16,
-                                                style: TextStyle(
-                                                    color: Colors.deepPurple),
-                                                underline: Container(
-                                                    //height: 2,
-                                                    //color: Colors.deepPurpleAccent,
-                                                    ),
-                                                onChanged: (String newValue) {
-                                                  setState(() {
-                                                    //dropdownValue = newValue;
-                                                  });
-                                                },
-                                                items: <String>[
-                                                  empty,
-                                                  'Severe',
-                                                  'High',
-                                                  'Low',
-                                                  'Very Low',
-                                                  'Not Evident',
-                                                ].map<DropdownMenuItem<String>>(
-                                                    (String value) {
-                                                  return value == " " ? DropdownMenuItem<
-                                                      String>(
-                                                    value: value,
-                                                    child: Container(),
-                                                  ) : DropdownMenuItem<
-                                                      String>(
-                                                    value: value,
-                                                    child: Text(value,
-                                                        style: TextStyle(
-                                                          fontSize: 16.0,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          color:
-                                                              Color(0xFF454F63),
-                                                        )),
-                                                  );
-                                                }).toList(),
-                                              ),
+                                              child: DropdownButton(
+                                                  value: "",
+                                                  icon: Icon(
+                                                    Icons.keyboard_arrow_down,
+                                                    color: Color(0xFF454F63),
+                                                    size: 25.0,
+                                                    semanticLabel:
+                                                        'Text to announce in accessibility modes',
+                                                  ),
+                                                  iconSize: 24,
+                                                  elevation: 16,
+                                                  style: TextStyle(
+                                                      color: Colors.deepPurple),
+                                                  underline: Container(
+                                                      //height: 2,
+                                                      //color: Colors.deepPurpleAccent,
+                                                      ),
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      //dropdownValue = newValue;
+                                                    });
+                                                    print(value);
+                                                    print("======");
+                                                    print(item);
+                                                    print(symptomCodes[
+                                                        "SYM00001"]);
+                                                    var tempSym = symptomCodes;
+                                                    tempSym["SYM00001"] = value;
+                                                    print("======");
+                                                    print(tempSym["SYM00001"]);
+                                                    setState(() {
+                                                      symptomCodes = tempSym;
+                                                    });
+                                                    print("======");
+                                                    print(symptomCodes[
+                                                        "SYM00001"]);
+
+                                                    switch (item) {
+                                                      case "Cough":
+                                                        {
+                                                          var tempSym =
+                                                              symptomCodes;
+                                                          tempSym["SYM00001"] =
+                                                              value;
+                                                          setState(() {
+                                                            symptomCodes =
+                                                                tempSym;
+                                                          });
+                                                        }
+                                                        break;
+
+                                                      case "Fever":
+                                                        {
+                                                          var tempSym =
+                                                              symptomCodes;
+                                                          tempSym["SYM00002"] =
+                                                              value;
+                                                          setState(() {
+                                                            symptomCodes =
+                                                                tempSym;
+                                                          });
+                                                        }
+                                                        break;
+                                                      case "Chest Pain":
+                                                        {
+                                                          var tempSym =
+                                                              symptomCodes;
+                                                          tempSym["SYM00004"] =
+                                                              value;
+                                                          setState(() {
+                                                            symptomCodes =
+                                                                tempSym;
+                                                          });
+                                                        }
+                                                        break;
+                                                      case "Weight loss":
+                                                        {
+                                                          var tempSym =
+                                                              symptomCodes;
+                                                          tempSym["SYM00005"] =
+                                                              value;
+                                                          setState(() {
+                                                            symptomCodes =
+                                                                tempSym;
+                                                          });
+                                                        }
+                                                        break;
+                                                      case "Fatigue":
+                                                        {
+                                                          var tempSym =
+                                                              symptomCodes;
+                                                          tempSym["SYM00006"] =
+                                                              value;
+                                                          setState(() {
+                                                            symptomCodes =
+                                                                tempSym;
+                                                          });
+                                                        }
+                                                        break;
+                                                      case "Sweat":
+                                                        {
+                                                          var tempSym =
+                                                              symptomCodes;
+                                                          tempSym["SYM00008"] =
+                                                              value;
+                                                          setState(() {
+                                                            symptomCodes =
+                                                                tempSym;
+                                                          });
+                                                        }
+                                                        break;
+                                                      case "Chills":
+                                                        {
+                                                          var tempSym =
+                                                              symptomCodes;
+                                                          tempSym["SYM00009"] =
+                                                              value;
+                                                          setState(() {
+                                                            symptomCodes =
+                                                                tempSym;
+                                                          });
+                                                        }
+                                                        break;
+                                                      case "Loss of Appetite":
+                                                        {
+                                                          var tempSym =
+                                                              symptomCodes;
+                                                          tempSym["SYM000011"] =
+                                                              value;
+                                                          setState(() {
+                                                            symptomCodes =
+                                                                tempSym;
+                                                          });
+                                                        }
+                                                        break;
+                                                      case "Diarrhea":
+                                                        {
+                                                          var tempSym =
+                                                              symptomCodes;
+                                                          tempSym["SYM000019"] =
+                                                              value;
+                                                          setState(() {
+                                                            symptomCodes =
+                                                                tempSym;
+                                                          });
+                                                        }
+                                                        break;
+                                                      case "Facial Pain":
+                                                        {
+                                                          var tempSym =
+                                                              symptomCodes;
+                                                          tempSym["SYM000022"] =
+                                                              value;
+                                                          setState(() {
+                                                            symptomCodes =
+                                                                tempSym;
+                                                          });
+                                                        }
+                                                        break;
+
+                                                      default:
+                                                        {
+                                                          //statements;
+                                                        }
+                                                        break;
+                                                    }
+                                                  },
+                                                  items: symptomLabels),
                                             ),
                                           ],
                                         )),
@@ -424,11 +639,35 @@ class _DiagnosisState extends State<Diagnosis> {
                         color: Color(0xFF665EFF),
                         textColor: Colors.white,
                         onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                _buildPopupDialog(context),
-                          );
+                          http
+                              .post("$baseUrl/diagnosis/diagnose",
+                                  headers: {
+                                    'Authorization': 'Bearer $token',
+                                  },
+                                  body: convert.json.encode(symptomCodes))
+                              .then((response) {
+                            var jsonResponse =
+                                convert.jsonDecode(response.body);
+                            print(jsonResponse["data"]);
+                            var tuberculosis =
+                                "Tuberculosis ${(jsonResponse["data"]["Tuberculosis"] * 100).toStringAsFixed(1)}%";
+                            var typhoid =
+                                "Typhoid ${(jsonResponse["data"]["Typhoid"] * 100).toStringAsFixed(1)}%";
+                            var malaria =
+                                "Malaria ${(jsonResponse["data"]["Malaria"] * 100).toStringAsFixed(1)}%";
+                            setState(() {
+                              diagnosis = [
+                                tuberculosis,
+                                typhoid,
+                                malaria,
+                              ];
+                            });
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  _buildPopupDialog(context),
+                            );
+                          });
                         },
                       ),
                     ),

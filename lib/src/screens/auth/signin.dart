@@ -3,7 +3,9 @@ import 'dart:convert' as convert;
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-import './input.dart';
+import './validate.dart';
+
+import '../user/dashboard.dart';
 
 class SignIn extends StatefulWidget {
   createState() {
@@ -28,6 +30,10 @@ class SignInState extends State<SignIn> {
       var jsonResponse = convert.jsonDecode(response.body);
       print(jsonResponse);
     });*/
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Dashboard('emmanuel', '', '')),
+    );
   }
 
   Widget build(context) {
@@ -99,10 +105,6 @@ class SignInState extends State<SignIn> {
                 ),
                 textColor: Colors.white,
                 onPressed: () {
-                  /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Dashboard()),
-              );*/
                   formKey.currentState.save();
                   signIn();
                 },

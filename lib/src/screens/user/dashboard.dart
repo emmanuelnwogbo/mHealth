@@ -5,13 +5,39 @@ import '../lists/pharmacies.dart';
 import '../lists/laboratories.dart';
 import '../lists/diagnosis.dart';
 
+import 'dart:convert' as convert;
+import 'dart:async';
+import 'package:http/http.dart' as http;
+
 class Dashboard extends StatefulWidget {
+  String firstname;
+  String email;
+  String password;
+  Dashboard(this.firstname, this.email, this.password);
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
+  final String url = "http://faef1053d904.ngrok.io/v0.1/auth/signin";
+
   @override
+  void initState() {
+    /*super.initState();
+    print("initState");
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print("WidgetsBinding");
+      http.post(url, body: {
+        "email": widget.email,
+        "password": widget.password,
+        "remember_me": "true"
+      }).then((response) {
+        var jsonResponse = convert.jsonDecode(response.body);
+        print(jsonResponse);
+      });
+    });*/
+  }
+
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
 
@@ -26,7 +52,7 @@ class _DashboardState extends State<Dashboard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Hello, Tayo',
+            'Hello, ${widget.firstname}',
             style: TextStyle(
               //background: paint,
               fontSize: 38.0,

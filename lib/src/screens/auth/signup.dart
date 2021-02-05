@@ -16,7 +16,24 @@ class SignUp extends StatefulWidget {
 class SignUpState extends State<SignUp> with ValidationMixin {
   final formKey = GlobalKey<FormState>();
   final double inputSpacing = 25.0;
-  final String url = "https://8722f076cc1b.ngrok.io/v0.1/guests/register";
+  final String urlGetter = "https://medhealthurl.herokuapp.com/url";
+  String baseUrl = "";
+  bool isLoading = false;
+
+  void initState() {
+    super.initState();
+    print("initState");
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print("WidgetsBinding");
+      http.get(urlGetter).then((response) {
+        var jsonResponse = convert.jsonDecode(response.body);
+        print(jsonResponse["url"]);
+        setState(() {
+          baseUrl = jsonResponse["url"];
+        });
+      });
+    });
+  }
 
   String firstname = "";
   String lastname = "";
@@ -24,19 +41,34 @@ class SignUpState extends State<SignUp> with ValidationMixin {
   String password = "";
   String confirmpassword = "";
 
+  String userName = "";
+  String userToken = "";
+
   void signUp() {
-    print(firstname);
-    print(email);
-    print(confirmpassword);
-    /*http.post(url, body: {
+    setState(() {
+      isLoading = true;
+    });
+
+    http.post("$baseUrl/guests/register", body: {
       "firstname": firstname,
       "lastname": lastname,
       "email": email,
       "password": password
     }).then((response) {
       var jsonResponse = convert.jsonDecode(response.body);
+      print(response);
+      //print(jsonResponse.data);
       print(jsonResponse);
-    });*/
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Dashboard(firstname, email, password)),
+      );
+    });
+    /*Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Dashboard(firstname, password)),
+    );*/
   }
 
   Widget build(context) {
@@ -170,20 +202,18 @@ class SignUpState extends State<SignUp> with ValidationMixin {
               minWidth: mediaQuery.size.width,
               height: 60.0,
               child: FlatButton(
-                child: Text(
-                  'Continue'.toUpperCase(),
-                  style: TextStyle(fontSize: 17.0),
-                ),
+                child: isLoading
+                    ? CircularProgressIndicator()
+                    : Text(
+                        'Continue'.toUpperCase(),
+                        style: TextStyle(fontSize: 17.0),
+                      ),
                 color: Color(0xFF665EFF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
                 textColor: Colors.white,
                 onPressed: () {
-                  /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Dashboard()),
-              );*/
                   formKey.currentState.save();
                   signUp();
                 },

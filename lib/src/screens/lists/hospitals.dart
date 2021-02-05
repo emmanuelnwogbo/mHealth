@@ -59,7 +59,7 @@ class _HospitalsState extends State<Hospitals> {
                     onTap: () {
                       Navigator.pop(
                         context,
-                        MaterialPageRoute(builder: (context) => Dashboard()),
+                        MaterialPageRoute(builder: (context) => Dashboard('', '', '')),
                       );
                     },
                     child: Icon(

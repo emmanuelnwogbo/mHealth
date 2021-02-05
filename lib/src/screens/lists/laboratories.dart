@@ -59,7 +59,7 @@ class _LaboratoriesState extends State<Laboratories> {
                     onTap: () {
                       Navigator.pop(
                         context,
-                        MaterialPageRoute(builder: (context) => Dashboard()),
+                        MaterialPageRoute(builder: (context) => Dashboard('', '', '')),
                       );
                     },
                     child: Icon(
