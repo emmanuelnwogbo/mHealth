@@ -8,6 +8,9 @@ import './validate.dart';
 import '../user/dashboard.dart';
 
 class SignUp extends StatefulWidget {
+  String baseUrl;
+  SignUp(this.baseUrl);
+  @override
   createState() {
     return SignUpState();
   }
@@ -17,22 +20,21 @@ class SignUpState extends State<SignUp> with ValidationMixin {
   final formKey = GlobalKey<FormState>();
   final double inputSpacing = 25.0;
   final String urlGetter = "https://medhealthurl.herokuapp.com/url";
-  String baseUrl = "";
+  String baseUrl = "https://9a5631fec4e3.ngrok.io/v0.1";
   bool isLoading = false;
 
-  void initState() {
-    super.initState();
-    print("initState");
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      print("WidgetsBinding");
-      http.get(urlGetter).then((response) {
-        var jsonResponse = convert.jsonDecode(response.body);
-        print(jsonResponse["url"]);
-        setState(() {
-          baseUrl = jsonResponse["url"];
-        });
-      });
+  String baseUrlTwo = "";
+
+  routeToDashboard() {
+    setState(() {
+      isLoading = false;
     });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              Dashboard(firstname, email, password, widget.baseUrl)),
+    );
   }
 
   String firstname = "";
@@ -49,7 +51,7 @@ class SignUpState extends State<SignUp> with ValidationMixin {
       isLoading = true;
     });
 
-    http.post("$baseUrl/guests/register", body: {
+    http.post("$baseUrlTwo/guests/register", body: {
       "firstname": firstname,
       "lastname": lastname,
       "email": email,
@@ -59,16 +61,22 @@ class SignUpState extends State<SignUp> with ValidationMixin {
       print(response);
       //print(jsonResponse.data);
       print(jsonResponse);
+      setState(() {
+        isLoading = true;
+      });
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Dashboard(firstname, email, password)),
+            builder: (context) =>
+                Dashboard(firstname, email, password, widget.baseUrl)),
       );
     });
-    /*Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Dashboard(firstname, password)),
-    );*/
+  }
+
+  void initState() {
+    setState(() {
+      baseUrlTwo = widget.baseUrl;
+    });
   }
 
   Widget build(context) {
@@ -215,6 +223,9 @@ class SignUpState extends State<SignUp> with ValidationMixin {
                 textColor: Colors.white,
                 onPressed: () {
                   formKey.currentState.save();
+                  setState(() {
+                    isLoading = true;
+                  });
                   signUp();
                 },
               ),

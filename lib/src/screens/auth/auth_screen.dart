@@ -4,6 +4,9 @@ import './signup.dart';
 import './signin.dart';
 
 class AuthScreen extends StatefulWidget {
+  String baseUrl;
+  AuthScreen(this.baseUrl);
+  @override
   createState() {
     return AuthScreenState();
   }
@@ -82,7 +85,7 @@ class AuthScreenState extends State<AuthScreen> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    _signup ? SignUp() : SignIn()
+                    _signup ? SignUp(widget.baseUrl) : SignIn(widget.baseUrl)
                   ],
                 )))));
   }

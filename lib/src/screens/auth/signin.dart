@@ -8,6 +8,9 @@ import './validate.dart';
 import '../user/dashboard.dart';
 
 class SignIn extends StatefulWidget {
+  String baseUrl;
+  SignIn(this.baseUrl);
+  @override
   createState() {
     return SignInState();
   }
@@ -20,6 +23,18 @@ class SignInState extends State<SignIn> {
 
   String email = "";
   String password = "";
+  bool isLoading = false;
+
+  routeToDashboard() {
+    setState(() {
+      isLoading = false;
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => Dashboard("", "", "", widget.baseUrl)),
+    );
+  }
 
   void signIn() {
     /*http.post(url, body: {
@@ -32,7 +47,8 @@ class SignInState extends State<SignIn> {
     });*/
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Dashboard('emmanuel', '', '')),
+      MaterialPageRoute(
+          builder: (context) => Dashboard('', '', '', widget.baseUrl)),
     );
   }
 
@@ -95,10 +111,12 @@ class SignInState extends State<SignIn> {
               minWidth: mediaQuery.size.width,
               height: 60.0,
               child: FlatButton(
-                child: Text(
-                  'Sign In'.toUpperCase(),
-                  style: TextStyle(fontSize: 17.0),
-                ),
+                child: isLoading
+                    ? CircularProgressIndicator()
+                    : Text(
+                        'Sign In'.toUpperCase(),
+                        style: TextStyle(fontSize: 17.0),
+                      ),
                 color: Color(0xFF665EFF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
@@ -106,7 +124,13 @@ class SignInState extends State<SignIn> {
                 textColor: Colors.white,
                 onPressed: () {
                   formKey.currentState.save();
-                  signIn();
+                  //signIn();
+                  setState(() {
+                    isLoading = true;
+                  });
+                  //signUp();
+                  Future.delayed(
+                      const Duration(milliseconds: 1900), routeToDashboard);
                 },
               ),
             )

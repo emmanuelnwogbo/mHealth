@@ -57,10 +57,10 @@ class _PharmaciesState extends State<Pharmacies> {
               children: <Widget>[
                 GestureDetector(
                     onTap: () {
-                      Navigator.pop(
+                      /*Navigator.pop(
                         context,
                         MaterialPageRoute(builder: (context) => Dashboard('', '', '')),
-                      );
+                      );*/
                     },
                     child: Icon(
                       Icons.arrow_back,

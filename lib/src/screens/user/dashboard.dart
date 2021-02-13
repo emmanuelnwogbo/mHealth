@@ -13,7 +13,8 @@ class Dashboard extends StatefulWidget {
   String firstname;
   String email;
   String password;
-  Dashboard(this.firstname, this.email, this.password);
+  String baseUrl;
+  Dashboard(this.firstname, this.email, this.password, this.baseUrl);
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -85,7 +86,7 @@ class _DashboardState extends State<Dashboard> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Diagnosis()),
+                      MaterialPageRoute(builder: (context) => Diagnosis(widget.baseUrl)),
                     );
                   },
                   child: Container(

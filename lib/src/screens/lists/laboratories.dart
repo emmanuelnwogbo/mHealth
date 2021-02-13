@@ -57,10 +57,10 @@ class _LaboratoriesState extends State<Laboratories> {
               children: <Widget>[
                 GestureDetector(
                     onTap: () {
-                      Navigator.pop(
+                      /*Navigator.pop(
                         context,
                         MaterialPageRoute(builder: (context) => Dashboard('', '', '')),
-                      );
+                      );*/
                     },
                     child: Icon(
                       Icons.arrow_back,

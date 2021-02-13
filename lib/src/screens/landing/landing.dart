@@ -11,6 +11,8 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
+  String baseUrl = "";
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
@@ -91,12 +93,40 @@ class _LandingState extends State<Landing> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AuthScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => AuthScreen(baseUrl)),
                         );
                       },
                     ),
                   ),
-                )
+                ),
+                Container(
+                    child: TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: new InputDecoration(
+                    border: new OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(30.0),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color(0xFF78849E), width: 1.5),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color(0xFFD9D9D9), width: 1.5),
+                    ),
+                    hintText: 'Demo Url',
+                  ),
+                  onChanged: (text) {
+                    print(text);
+                    setState(() {
+                      baseUrl = text;
+                    });
+                    print(baseUrl);
+                  },
+                ))
               ],
             )),
       ),
